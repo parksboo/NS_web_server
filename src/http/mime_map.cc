@@ -1,1 +1,1 @@
-// mime_map.cc: 확장자→MIME 매핑
+// mime_map.cc: Extension to MIME type mapping

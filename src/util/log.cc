@@ -1,1 +1,1 @@
-// log.cc: 간단 로거
+// log.cc: Simple logger

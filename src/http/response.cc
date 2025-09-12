@@ -1,1 +1,1 @@
-// response.cc: 상태줄/헤더 조립
+// response.cc: Assemble status line/headers

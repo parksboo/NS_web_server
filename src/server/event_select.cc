@@ -1,1 +1,1 @@
-// event_select.cc: (선택) select() 기반 다중 I/O
+// event_select.cc: (Optional) select()-based multiplexed I/O

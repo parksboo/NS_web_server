@@ -1,1 +1,1 @@
-// pipeline_queue.cc: 동일 소켓에서 들어온 요청 순서 보장 큐
+// pipeline_queue.cc: Queue to guarantee request order on the same socket

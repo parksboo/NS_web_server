@@ -1,1 +1,1 @@
-// timer.cc: 타임아웃 관리
+// timer.cc: Timeout management

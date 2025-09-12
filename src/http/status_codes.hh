@@ -1,1 +1,1 @@
-// status_codes.hh: HTTP 상태 코드 상수/문구
+// status_codes.hh: HTTP status code constants/messages
