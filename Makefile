@@ -1,3 +1,11 @@
-# Makefile: C 전용 빌드 예시
-all:
-	@echo "C 소스 빌드 예시 (C++은 CMakeLists.txt 사용)"
+CC=gcc
+CFLAGS=-std=c11 -Wall -Wextra -O2
+LDFLAGS=-lpthread
+SRC=$(wildcard src/**/*.c src/*.c)
+OBJ=$(SRC:.c=.o)
+
+server: $(OBJ)
+	$(CC) -o $@ $(OBJ) $(LDFLAGS)
+
+clean:
+	rm -f $(OBJ) server
