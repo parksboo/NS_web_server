@@ -9,11 +9,11 @@
 
 // C++ standard library
 #include <string>
-#include <iostream>
+#include <stdexcept>
 
 // project header
-#include "fs/docroot.h"
 
+// error handling edit
 namespace ns_server {
 
 Server::Server(int port, const std::string doc_root)
@@ -23,8 +23,7 @@ void Server::start() {
 	// TODO: Create listening socket, accept loop, handle SIGINT for shutdown
 	server_fd_ = createListenSocket();
 	if (server_fd_ < 0) {
-		std::cerr << "Failed to create server socket\n";
-		return;
+		throw std::runtime_error("Failed to create server socket: " + std::string(strerror(errno)));
 	}
 	std::cout << "Server started on port " << port_ << ", doc_root: " << doc_root_ << std::endl;
 	// TODO: Accept loop, call HandleClient for each connection
