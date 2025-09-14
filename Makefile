@@ -35,6 +35,6 @@ $(TARGET): $(OBJS)
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
-	rm -f $(SRC_DIR)/*/*.o $(SRC_DIR)/*/*/*.o $(TARGET)
+	rm -f $(SRC_DIR)/*.o $(SRC_DIR)/*/*.o $(TARGET)
 
 .PHONY: all clean
