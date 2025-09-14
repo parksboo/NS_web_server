@@ -2,10 +2,11 @@
 // related header
 #include "http/response.h"
 
+// system header
+#include <sys/types.h>
+
 // C++ standard library
 #include <string>
-
-// system header
 
 // project header
 #include "http/status_codes.h"

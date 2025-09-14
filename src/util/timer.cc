@@ -2,9 +2,9 @@
 // related header
 #include "util/timer.h"
 
+// system header
+
 // C++ standard library
 #include <chrono>
-
-// system header
 
 // project header
