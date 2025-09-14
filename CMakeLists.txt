@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_compile_options(-Wall -Wextra -Wconversion -O2)
 add_executable(server
   src/main.cc
+  src/server/server.cc
   src/server/accept_loop.cc
   src/server/conn_manager.cc
   src/http/request.cc

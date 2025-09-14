@@ -7,25 +7,25 @@ namespace ns_server {
 
 class Server {
  public:
-  explicit Server(int port, std::string doc_root = "www");
+  explicit Server(int port, const std::string doc_root = "www");
 
   // Starts the server and runs until SIGINT is received.
-  void Start();
+  void start();
 
   // Requests a clean shutdown.
-  void Stop();
+  void stop();
 
   // Non-copyable.
   Server(const Server&) = delete;
   Server& operator=(const Server&) = delete;
 
  private:
-  const int port_;
+  int port_;
   int server_fd_;
-  std::string doc_root_;
+  const std::string doc_root_;
 
-  void HandleClient(int client_fd);
-  int CreateListenSocket();
+  void handleClient(int client_fd);
+  int createListenSocket();
 };
 
 }  // namespace ns_server
