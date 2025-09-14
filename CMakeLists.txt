@@ -1,4 +1,5 @@
-# CMakeLists.txt: C++ 빌드 스크립트 예시
+# CMakeLists
+
 cmake_minimum_required(VERSION 3.16)
 project(server LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
@@ -8,7 +9,6 @@ add_executable(server
   src/main.cc
   src/server/accept_loop.cc
   src/server/conn_manager.cc
-  src/server/event_select.cc
   src/http/request.cc
   src/http/response.cc
   src/http/pipeline_queue.cc
@@ -19,5 +19,5 @@ add_executable(server
   src/util/log.cc
   src/util/timer.cc
 )
-target_include_directories(server PRIVATE include)
+target_include_directories(server PRIVATE ${CMAKE_SOURCE_DIR}/include)
 target_link_libraries(server PRIVATE pthread)

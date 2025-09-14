@@ -1,6 +1,7 @@
 // main.cc: Server entry point, argument parsing, server start/stop handling
 #include <iostream>
 #include <string>
+
 #include "server/server.h"
 
 int main(int argc, char* argv[]) {
@@ -10,8 +11,8 @@ int main(int argc, char* argv[]) {
         port = std::stoi(argv[1]);
     }
     // Start server on specified port
-    Server server(port, docroot);
-    server.start();
+    ns_server::Server server(port, docroot);
+    server.Start();
 
     return 0;
 }

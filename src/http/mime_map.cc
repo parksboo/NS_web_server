@@ -1,1 +1,11 @@
-// mime_map.cc: Extension to MIME type mapping
+
+// related header
+#include "http/mime_map.h"
+
+// C++ standard library
+#include <string>
+#include <unordered_map>
+
+// system header
+
+// project header
