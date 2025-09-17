@@ -10,7 +10,7 @@ int main(int argc, char* argv[]) {
     const std::string docroot = "www";
     // Start server on specified port
     ns_server::Server server(port, docroot);
-    server.start();
+    server.run();
 
     return 0;
 }

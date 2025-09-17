@@ -1,19 +1,23 @@
 #ifndef NSSERVER_SERVER_H_
 #define NSSERVER_SERVER_H_
 
+// related code
+// /server/worker_thread.cc
+
+// system header
+#include <unistd.h>
+
+// C++ standard library
 #include <string>
 
 namespace ns_server {
 
 class Server {
  public:
-  explicit Server(int port, const std::string doc_root = "www");
+  explicit Server(int port, std::string doc_root = "www");
 
   // Starts the server and runs until SIGINT is received.
-  void start();
-
-  // Requests a clean shutdown.
-  void stop();
+  int run();
 
   // Non-copyable.
   Server(const Server&) = delete;
@@ -24,7 +28,6 @@ class Server {
   int server_fd_;
   const std::string doc_root_;
 
-  void handleClient(int client_fd);
   int createListenSocket();
 };
 

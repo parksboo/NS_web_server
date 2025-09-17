@@ -7,6 +7,8 @@ class ConnManager {
  public:
 	ConnManager();
 	void Manage();
+
+	// Non-copyable
 	ConnManager(const ConnManager&) = delete;
 	ConnManager& operator=(const ConnManager&) = delete;
 };
