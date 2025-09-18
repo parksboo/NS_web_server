@@ -42,10 +42,12 @@ int Server::createListenSocket() {
 	addr.sin_port = htons(port_);
 	if (bind(fd, (sockaddr*)&addr, sizeof(addr)) < 0) {
 		close(fd);
+		std::cout << "Failed to bind socket\n";
 		return -1;
 	}
 	if (listen(fd, SOMAXCONN) < 0) {
 		close(fd);
+		std::cout << "Failed to listen on socket\n";
 		return -1;
 	}
 	return fd;
