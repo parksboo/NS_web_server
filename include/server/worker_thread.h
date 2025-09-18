@@ -10,31 +10,38 @@
 
 // C++ standard library
 
-// project header
-
 
 namespace ns_server {
 
 class Worker {
-
  public:
-    explicit Worker(int fd) : client_fd_(fd) {}
-    
-    // Non-copyable
-    Worker(const Worker&) = delete;
-    Worker& operator=(const Worker&) = delete;
-    Worker(Worker&&) = default;
-    Worker& operator=(Worker&&) = default;
-    ~Worker() { if (client_fd_ >= 0) ::close(client_fd_); }
+  explicit Worker(int fd) : client_fd_(fd) {}
 
-    void operator()() { Run(); }
-
-    private:
-    int client_fd_;  // 인스턴스마다 독립. 이름이 같아도 전혀 충돌 없음.
-
-    void Run() {
-        // 여기서 client_fd_로 recv/send 루프
+  // 복사 금지, 이동 허용 (std::thread는 MoveConstructible 필요)
+  Worker(const Worker&) = delete;
+  Worker& operator=(const Worker&) = delete;
+  Worker(Worker&& other) noexcept : client_fd_(other.client_fd_) { other.client_fd_ = -1; }
+  Worker& operator=(Worker&& other) noexcept {
+    if (this != &other) {
+      close_now(); 
+      client_fd_ = other.client_fd_;
+      other.client_fd_ = -1;
     }
+    return *this;
+  }
+
+  ~Worker() { close_now(); }
+
+  void operator()() { Run(); }
+
+ private:
+  int client_fd_{-1};
+
+  void close_now() {
+    if (client_fd_ >= 0) { ::close(client_fd_); client_fd_ = -1; }
+  }
+
+  void Run();  // Run 안에서 close 하지 말고, 소멸자에 일원화 권장
 };
 
 }  // namespace ns_server

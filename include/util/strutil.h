@@ -6,11 +6,7 @@
 
 namespace ns_util {
 
-class StrUtil {
- public:
-	static std::string Trim(const std::string& s);
-	static std::string ToUpper(const std::string& s);
-};
+std::string Trim(const std::string& s);
 
 }  // namespace ns_util
 

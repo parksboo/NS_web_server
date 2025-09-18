@@ -1,6 +1,6 @@
 # Makefile for NS_web_server (C++)
 CXX = g++
-CXXFLAGS = -std=c++17 -Wall -Wextra -O2
+CXXFLAGS = -std=c++23 -Wall -Wextra -O2
 LDFLAGS = 
 INCLUDES = -Iinclude
 SRC_DIR = src
@@ -11,13 +11,10 @@ SRCS = \
 	$(SRC_DIR)/server/accept_loop.cc \
 	$(SRC_DIR)/server/conn_manager.cc \
 	$(SRC_DIR)/server/worker_thread.cc \
-	$(SRC_DIR)/server/event_select.cc \
 	$(SRC_DIR)/http/request.cc \
 	$(SRC_DIR)/http/response.cc \
 	$(SRC_DIR)/http/pipeline_queue.cc \
 	$(SRC_DIR)/http/mime_map.cc \
-	$(SRC_DIR)/fs/docroot.cc \
-	$(SRC_DIR)/fs/sendfile.cc \
 	$(SRC_DIR)/util/strutil.cc \
 	$(SRC_DIR)/util/log.cc \
 	$(SRC_DIR)/util/timer.cc

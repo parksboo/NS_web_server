@@ -11,6 +11,11 @@ class ConnManager {
 	// Non-copyable
 	ConnManager(const ConnManager&) = delete;
 	ConnManager& operator=(const ConnManager&) = delete;
+
+	static ConnManager& GetInstance() {
+		static ConnManager instance;
+		return instance;
+	}
 };
 
 }  // namespace ns_server

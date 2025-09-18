@@ -8,6 +8,7 @@
 
 // C++ standard library
 #include <string>
+#include <iostream>
 
 // project header
 #include "http/status_codes.h"
@@ -26,9 +27,11 @@ int Server::run() {
 		return -1;
 	}
 	// Accept loop, call HandleClient for each connection on new thread
+	std::cout << "Server running on port " << port_ << ", doc root: " << doc_root_ << "\n";
 	AcceptLoop(server_fd_);
-	
+	return 0;	
 }
+
 int Server::createListenSocket() {
 
 	int fd = socket(AF_INET, SOCK_STREAM, 0);

@@ -3,15 +3,28 @@
 #define NSHTTP_REQUEST_H_
 
 #include <string>
+#include <map>
 
 namespace ns_http {
 
 class Request {
  public:
+    std::string method;
+    std::string path;
+    std::string version;
+    std::map<std::string, std::string> headers;
+	
 	Request();
-	bool Parse(const std::string& raw);
-	// ...
+	
+	std::string GetFileExtension();
+	
+	
+
 };
+
+Request Get(int client_fd);
+Request Parse(const std::string& raw);
+
 
 }  // namespace ns_http
 
