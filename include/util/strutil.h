@@ -7,6 +7,7 @@
 namespace ns_util {
 
 std::string Trim(const std::string& s);
+std::string ToLower(std::string s);
 
 }  // namespace ns_util
 

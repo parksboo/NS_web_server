@@ -13,14 +13,9 @@
 // project header
 #include "http/request.h"
 #include "http/response.h"
+#include "util/strutil.h"
 
 namespace ns_server {
-
-static std::string ToLower(std::string s) {
-  std::transform(s.begin(), s.end(), s.begin(),
-                 [](unsigned char c){ return std::tolower(c); });
-  return s;
-}
 
 void Worker::Run() {
   ::timeval tv{10, 0};
@@ -32,7 +27,7 @@ void Worker::Run() {
   for (;;) {
     ns_http::Request request = ns_http::Get(client_fd_);
     ns_http::Respond(client_fd_, request);
-    if (!(ToLower(request.headers["Connection"]) == "keep-alive")) {
+    if (!(ns_util::ToLower(request.headers["Connection"]) == "keep-alive")) {
       break;
     }
     ::pollfd pfd{ client_fd_, POLLIN, 0 };

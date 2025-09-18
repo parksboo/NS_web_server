@@ -21,4 +21,10 @@ std::string Trim(const std::string& s) {
     return s.substr(start, end - start + 1);
 }
 
+std::string ToLower(std::string s) {
+  std::transform(s.begin(), s.end(), s.begin(),
+                 [](unsigned char c){ return std::tolower(c); });
+  return s;
+}
+
 }  // namespace ns_util
