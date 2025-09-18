@@ -10,8 +10,6 @@
 #include <thread>
 
 // project header
-#include "server/conn_manager.h"
-#include "util/log.h"
 #include "server/worker_thread.h"
 
 namespace ns_server {

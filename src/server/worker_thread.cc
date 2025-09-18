@@ -4,27 +4,44 @@
 
 // system header
 #include <sys/socket.h>
-#include <sys/stat.h>
+#include <poll.h>
 
 // C++ standard library
 #include <thread>
-#include <iostream>
-#include <sstream>
-#include <fstream>
+
 
 // project header
 #include "http/request.h"
-#include "http/status_codes.h"
-#include "http/mime_map.h"
 #include "http/response.h"
 
 namespace ns_server {
 
-void Worker::Run() {
-  
-  ns_http::Request request = ns_http::Get(client_fd_);
-  ns_http::Respond(client_fd_, request);
+static std::string ToLower(std::string s) {
+  std::transform(s.begin(), s.end(), s.begin(),
+                 [](unsigned char c){ return std::tolower(c); });
+  return s;
 }
 
+void Worker::Run() {
+  ::timeval tv{10, 0};
+  ::setsockopt(client_fd_, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
+  ::setsockopt(client_fd_, SOL_SOCKET, SO_SNDTIMEO, &tv, sizeof(tv));
+
+  constexpr int keepAliveMs = 10 * 1000;
+
+  for (;;) {
+    ns_http::Request request = ns_http::Get(client_fd_);
+    ns_http::Respond(client_fd_, request);
+    if (!(ToLower(request.headers["Connection"]) == "keep-alive")) {
+      break;
+    }
+    ::pollfd pfd{ client_fd_, POLLIN, 0 };
+    int pr = ::poll(&pfd, 1, keepAliveMs);
+    if (pr <= 0) {
+      break;
+    }
+  }
+}
+    
 }  // namespace ns_server
 

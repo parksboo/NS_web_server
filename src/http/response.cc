@@ -18,16 +18,23 @@
 #include "http/status_codes.h"
 #include "http/mime_map.h"
 #include "http/request.h"
-#include "util/log.h"
 
 namespace ns_http {
 
 void Respond(int client_fd, Request& request) {
   if (request.path == "/") request.path = "/index.html";
   std::string filepath = "www" + request.path;
-  struct stat st;
-  if (stat(filepath.c_str(), &st) != 0) {
+  // 404 Not Found
+  if (access(filepath.c_str(), F_OK) != 0) {
     request.SetError(ns_http::StatusCode::NOT_FOUND);
+  }
+  else if (access(filepath.c_str(), R_OK) != 0) {
+    if (errno == EACCES) {
+      request.SetError(ns_http::StatusCode::FORBIDDEN);
+    }
+    else {
+      request.SetError(ns_http::StatusCode::BAD_REQUEST);
+    }
   }
   if (request.GetStatus() != StatusCode::OK) {
     return ErrorHandler(client_fd, request);
@@ -36,17 +43,17 @@ void Respond(int client_fd, Request& request) {
   std::ostringstream oss;
   oss << ifs.rdbuf();
   request.body = oss.str();
-    request.content_type = ns_http::MimeMap::GetMimeType(request.GetFileExtension());
+  request.content_type = ns_http::MimeMap::GetMimeType(request.GetFileExtension());
 
-    std::ostringstream resp;
-    resp << request.version << " 200 OK" << "\r\n"
-         << "Content-Type: " << request.content_type << "\r\n"
-         << "Content-Length: " << request.body.size() << "\r\n"
-         << "\r\n"
-         << request.body;
+  std::ostringstream resp;
+  resp << request.version << " 200 OK" << "\r\n"
+    << "Content-Type: " << request.content_type << "\r\n"
+    << "Content-Length: " << request.body.size() << "\r\n"
+    << "\r\n"
+    << request.body;
 
-    std::string response_str = resp.str();
-    ::write(client_fd, response_str.c_str(), response_str.size());
+  std::string response_str = resp.str();
+  ::write(client_fd, response_str.c_str(), response_str.size());
 }
 
 

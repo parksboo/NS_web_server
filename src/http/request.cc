@@ -11,7 +11,7 @@
 #include <set>
 #include <map>
 #include <sstream>
-#include <iostream>
+// #include <iostream>
 
 // project header
 #include "util/strutil.h"
@@ -19,9 +19,10 @@
 
 namespace ns_http {
 
-Request::Request() : method(""), path(""), version("HTTP/1.0"), headers(), error_message_(StatusCode::OK) {}
 static const std::set<std::string> supported_methods = {"GET"};
 static const std::set<std::string> supported_versions = {"HTTP/1.1", "HTTP/1.0"};
+
+Request::Request() : method(""), path(""), version("HTTP/1.1"), headers(), error_message_(StatusCode::OK) {}
 
 Request Get(int client_fd) {
   std::string request_str;
@@ -31,10 +32,10 @@ Request Get(int client_fd) {
       ssize_t bytes_read = recv(client_fd, buf, sizeof(buf), 0);
       if (bytes_read <= 0) return Request().SetError(StatusCode::BAD_REQUEST);
       request_str.append(buf, bytes_read);
-      // Debug: Print received chunk
-      std::cout << "--- Received chunk (" << bytes_read << " bytes) ---" << std::endl;
-      std::cout.write(buf, bytes_read);
-      std::cout << "--------------------------" << std::endl;
+    //  // Debug: Print received chunk
+    //   std::cout << "--- Received chunk (" << bytes_read << " bytes) ---" << std::endl;
+    //   std::cout.write(buf, bytes_read);
+    //   std::cout << "--------------------------" << std::endl;
   }
   return Parse(request_str);
 }

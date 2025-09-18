@@ -9,16 +9,10 @@ add_executable(server
   src/main.cc
   src/server/server.cc
   src/server/accept_loop.cc
-  src/server/conn_manager.cc
   src/http/request.cc
   src/http/response.cc
-  src/http/pipeline_queue.cc
   src/http/mime_map.cc
-  src/fs/docroot.cc
-  src/fs/sendfile.cc
   src/util/strutil.cc
-  src/util/log.cc
-  src/util/timer.cc
 )
 target_include_directories(server PRIVATE ${CMAKE_SOURCE_DIR}/include)
 target_link_libraries(server PRIVATE pthread)
