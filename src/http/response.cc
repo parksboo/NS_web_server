@@ -58,38 +58,37 @@ void Respond(int client_fd, Request& request) {
 
 
 void ErrorHandler(int client_fd, Request& request) {
-    std::string status_text;
-    switch (request.GetStatus()) {
-        case StatusCode::BAD_REQUEST:
-            status_text = "400 Bad Request";
-            break;
-        case StatusCode::FORBIDDEN:
-            status_text = "403 Forbidden";
-            break;
-        case StatusCode::NOT_FOUND:
-            status_text = "404 Not Found";
-            break;
-        case StatusCode::METHOD_NOT_ALLOWED:
-            status_text = "405 Method Not Allowed";
-            break;
-        case StatusCode::HTTP_VERSION_NOT_SUPPORTED:
-            status_text = "505 HTTP Version Not Supported";
-            break;
-        default:
-            status_text = "500 Internal Server Error";
-            break;
-    }
+  std::string status_text;
+  switch (request.GetStatus()) {
+    case StatusCode::BAD_REQUEST:
+      status_text = "400 Bad Request";
+      break;
+    case StatusCode::FORBIDDEN:
+      status_text = "403 Forbidden";
+      break;
+    case StatusCode::NOT_FOUND:
+      status_text = "404 Not Found";
+      break;
+    case StatusCode::METHOD_NOT_ALLOWED:
+      status_text = "405 Method Not Allowed";
+      break;
+    case StatusCode::HTTP_VERSION_NOT_SUPPORTED:
+      status_text = "505 HTTP Version Not Supported";
+      break;
+    default:
+      status_text = "500 Internal Server Error";
+      break;
+  }
 
-    std::ostringstream resp;
-    resp << request.version << " " << status_text << "\r\n"
-             << "Content-Type: text/plain\r\n"
-             << "Content-Length: " << std::to_string(status_text.size() + 1) << "\r\n"
-             << "\r\n"
-             << status_text << "\n";
-    std::string response = resp.str();
+  std::ostringstream resp;
+  resp << request.version << " " << status_text << "\r\n"
+       << "Content-Type: text/plain\r\n"
+       << "Content-Length: " << std::to_string(status_text.size() + 1) << "\r\n"
+       << "\r\n"
+       << status_text << "\n";
+  std::string response = resp.str();
     std::cout << resp.str() << std::endl; // Debug: Print the full response
     ::write(client_fd, response.c_str(), response.size());
-
 }
 
 }  // namespace ns_http
