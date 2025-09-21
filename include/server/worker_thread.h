@@ -17,7 +17,7 @@ class Worker {
  public:
   explicit Worker(int fd) : client_fd_(fd) {}
 
-  // 복사 금지, 이동 허용 (std::thread는 MoveConstructible 필요)
+  // Non-copyable, movable
   Worker(const Worker&) = delete;
   Worker& operator=(const Worker&) = delete;
   Worker(Worker&& other) noexcept : client_fd_(other.client_fd_) { other.client_fd_ = -1; }
@@ -41,7 +41,7 @@ class Worker {
     if (client_fd_ >= 0) { ::close(client_fd_); client_fd_ = -1; }
   }
 
-  void Run();  // Run 안에서 close 하지 말고, 소멸자에 일원화 권장
+  void Run();
 };
 
 }  // namespace ns_server
